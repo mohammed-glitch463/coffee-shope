@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — The Daily Grind</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/"><span class="brand-mark">dg.</span><span>THE DAILY GRIND<small>ADMINISTRATION</small></span></a>
+    <nav><a href="/">View customer website</a></nav>
+    <a class="header-cta" href="/">Back to website ↗</a>
+  </header>
+  <main>
+    <section class="admin-gate-section" id="admin">
+      <div class="admin-login-card" id="adminLoginCard">
+        <p class="eyebrow"><span></span> STAFF ACCESS</p>
+        <h2>Welcome <em>back.</em></h2>
+        <p class="login-intro">Sign in to open the coffee shop administration dashboard.</p>
+        <form id="adminLoginForm">
+          <label>Username<input id="adminUsername" autocomplete="username" required placeholder="Admin"></label>
+          <label>Password<input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter password"></label>
+          <button class="button button-dark login-submit" type="submit">Sign in to dashboard ↗</button>
+          <p class="login-error" id="loginError" role="alert"></p>
+        </form>
+      </div>
+      <div class="admin-dashboard" id="adminDashboard" hidden>
+        <div class="dashboard-topbar">
+          <div><p class="eyebrow"><span></span> THE DAILY GRIND · ADMIN</p><h2>Admin <em>dashboard.</em></h2></div>
+          <button class="outline-button" id="adminLogout" type="button">Sign out ↗</button>
+        </div>
+        <div class="dashboard-tabs" role="tablist" aria-label="Admin dashboard sections">
+          <button class="dashboard-tab active" type="button" data-admin-tab="management">Manage menu</button>
+          <button class="dashboard-tab" type="button" data-admin-tab="reports">Reports</button>
+        </div>
+        <div class="dashboard-panel active" id="managementPanel">
+    <section class="management-section" id="management">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> STAFF WORKSPACE</p><h2>Menu <em>management.</em></h2></div>
+        <p class="section-intro">Manage your coffee shop products here. Add new items, update details, or remove discontinued products.</p>
+      </div>
+
+      <div class="admin-layout">
+        <form class="admin-form" id="menuForm">
+          <div class="form-heading"><h3 id="formTitle">Add a menu item</h3><span class="admin-tag">ADMIN</span></div>
+          <input type="hidden" id="menuId">
+          <label>Product name<input id="itemName" required maxlength="70" placeholder="e.g. Hazelnut Latte"></label>
+          <div class="form-two">
+            <label>Category<select id="itemCategory" required><option value="Coffee">Coffee</option><option value="Non-Coffee">Non-Coffee</option><option value="Tea">Tea</option><option value="Snacks">Snacks</option></select></label>
+            <label>Price (IDR)<input id="itemPrice" type="number" min="0" required placeholder="30000"></label>
+          </div>
+          <label>Stock quantity<input id="itemStock" type="number" min="0" required placeholder="15"></label>
+          <label>Description<textarea id="itemDescription" rows="3" placeholder="Describe this menu item..."></textarea></label>
+          <label>Product image<input id="itemImageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><small class="upload-help">Upload JPG, PNG, WEBP or GIF · maximum 5 MB. Leave empty to keep the current image or use the default.</small></label>
+          <input type="hidden" id="itemImage" value="/images/cafe-hero.jpg">
+          <div class="image-preview-wrap"><img id="itemImagePreview" src="/images/cafe-hero.jpg" alt="Selected product preview"><span id="imageUploadStatus">Current product image</span></div>
+          <div class="form-actions"><button class="button button-dark" type="submit" id="saveButton">Add product <span>＋</span></button><button class="cancel-button" type="button" id="cancelEdit" hidden>Cancel edit</button></div>
+          <p class="form-hint">New product IDs are generated automatically by the API.</p>
+        </form>
+
+        <div class="admin-table-wrap">
+          <div class="admin-table-heading"><div><h3>Product inventory</h3><p>All products currently stored in the menu API</p></div><button class="outline-button" id="refreshButton" type="button">↻ Refresh</button></div>
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+              <tbody id="adminTableBody"><tr><td colspan="5">Loading products...</td></tr></tbody>
+            </table>
+          </div>
+          <p class="form-hint">Delete requires the assignment's x-auth-token header. The demo token is documented in README.</p>
+        </div>
+      </div>
+    </section>
+
+
+        </div>
+        <div class="dashboard-panel" id="reportsPanel">
+    <section class="report-section" id="reports">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> BUSINESS OVERVIEW</p><h2>Menu <em>report.</em></h2></div>
+        <p class="section-intro">A quick snapshot of the current menu and inventory. The report is calculated from the live in-memory API data.</p>
+      </div>
+      <div class="report-actions"><span id="reportUpdated">Report not generated yet</span><div><button class="outline-button" id="exportCsv" type="button">↓ Export CSV</button><button class="button button-dark" id="printReport" type="button">Print report ↗</button></div></div>
+      <div class="report-stats">
+        <article class="stat-card"><span>Total products</span><strong id="statProducts">—</strong><small>Unique menu items</small></article>
+        <article class="stat-card"><span>Total stock units</span><strong id="statStock">—</strong><small>Available inventory</small></article>
+        <article class="stat-card"><span>Inventory value</span><strong id="statValue">—</strong><small>Price × stock estimate</small></article>
+        <article class="stat-card"><span>Low-stock items</span><strong id="statLow">—</strong><small>Stock below 5 units</small></article>
+      </div>
+      <div class="report-detail">
+        <div class="report-panel"><h3>Products by category</h3><div id="categoryReport" class="category-report"></div></div>
+        <div class="report-panel"><h3>Stock monitoring</h3><div class="table-scroll"><table class="admin-table report-table"><thead><tr><th>Product</th><th>Stock</th><th>Status</th><th>Stock value</th></tr></thead><tbody id="stockReportBody"></tbody></table></div></div>
+      </div>
+      <p class="report-disclaimer">Note: Inventory value is an estimated retail value (selling price × stock quantity), not accounting profit or actual cost of goods.</p>
+    </section>
+
+
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+  <footer><a class="brand footer-brand" href="/"><span class="brand-mark">dg.</span><span>THE DAILY GRIND<small>COFFEE & GOOD DAYS</small></span></a><p>Authorized staff workspace.</p><a href="/">Customer website ↑</a></footer>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "id": "d7b2f2a1-9d9f-4b51-a9c3-4c92d88d5f21",
+  "name": "Coffee Shop Local",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "enabled": true
+    },
+    {
+      "key": "adminUsername",
+      "value": "Admin",
+      "enabled": true
+    },
+    {
+      "key": "adminPassword",
+      "value": "CHANGE_ME",
+      "enabled": true
+    },
+    {
+      "key": "token",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "menuId",
+      "value": "",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2026-11-17T00:00:00.000Z",
+  "_postman_exported_using": "ChatGPT"
+}

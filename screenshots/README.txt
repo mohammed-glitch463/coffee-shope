@@ -1,0 +1,1 @@
+Place your Postman or Thunder Client screenshots here. Capture each required route and the 400, 401 and 404 cases after running the server. These screenshots are a lecturer-required submission item and are not fabricated in this starter ZIP.
